@@ -19,3 +19,6 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::resource('projects', 'ProjectsController');
+Route::resource('projects.tasks', 'TasksController');

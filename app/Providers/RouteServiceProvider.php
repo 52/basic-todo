@@ -24,7 +24,15 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
-		//
+		// model binding, treat 'projects' wildcard on URL as slug
+		$router->bind('projects', function($slug){
+			return \App\Project::whereSlug($slug)->firstOrFail();
+		});
+
+		// model binding, treat 'tasks' wildcard on URL as slug
+		$router->bind('projects', function($slug){
+			return \App\Task::whereSlug($slug)->firstOrFail();
+		});
 	}
 
 	/**
