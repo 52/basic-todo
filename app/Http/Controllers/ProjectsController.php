@@ -10,27 +10,28 @@ use App\Task;
 class ProjectsController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of projects.
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		//
+		$projects = Project::all();
+		return view('projects.index', compact('projects'));
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new project.
 	 *
 	 * @return Response
 	 */
 	public function create()
 	{
-		//
+		return view('projects.create');
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created project in storage.
 	 *
 	 * @return Response
 	 */
@@ -40,34 +41,34 @@ class ProjectsController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified project.
 	 *
-	 * @param  int  $id
+	 * @param  Project  $project
 	 * @return Response
 	 */
 	public function show(Project $project)
 	{
-		//
+		return view('projects.show', compact('project'));
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified project.
 	 *
-	 * @param  int  $id
+	 * @param  Project  $project
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Project $project)
 	{
-		//
+		return view('projects.edit', compact('project'));
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified project in storage.
 	 *
-	 * @param  int  $id
+	 * @param  Project $project
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Project $project)
 	{
 		//
 	}
@@ -75,10 +76,10 @@ class ProjectsController extends Controller {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param  Project $project
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Project $project)
 	{
 		//
 	}

@@ -4,79 +4,88 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Project;
+use App\Task;
 
 class TasksController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of tasks.
 	 *
+	 * @param Project $project
 	 * @return Response
 	 */
-	public function index()
+	public function index(Project $project)
 	{
 		//
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new task.
 	 *
+	 * @param Project $project
 	 * @return Response
 	 */
-	public function create()
+	public function create(Project $project)
 	{
 		//
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created task in storage.
 	 *
+	 * @param Project $project
 	 * @return Response
 	 */
-	public function store()
+	public function store(Project $project)
 	{
 		//
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified task.
 	 *
-	 * @param  int  $id
+	 * @param Project $project
+	 * @param Tasks $task
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Project $project, Task $task)
+	{
+		return view('tasks.show', compact('project', 'task'));
+	}
+
+	/**
+	 * Show the form for editing the specified task.
+	 *
+	 * @param Project $project
+	 * @param Tasks $task
+	 * @return Response
+	 */
+	public function edit(Project $project, Task $task)
 	{
 		//
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Update the specified task in storage.
 	 *
-	 * @param  int  $id
+	 * @param Project $project
+	 * @param Tasks $task
 	 * @return Response
 	 */
-	public function edit($id)
+	public function update(Project $project, Task $task)
 	{
 		//
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Remove the specified task from storage.
 	 *
-	 * @param  int  $id
+	 * @param Project $project
+	 * @param Tasks $task
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+	public function destroy(Project $project, Task $task)
 	{
 		//
 	}
