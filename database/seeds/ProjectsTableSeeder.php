@@ -15,8 +15,8 @@ class ProjectsTableSeeder extends Seeder {
 		DB::table('projects')->delete();
 
 		$projects = array(
-			['name' => 'Be a superman', 'slug' => 'be-a-superman'],
-			['name' => 'Become a crazy cat lady ', 'slug' => 'become-a-crazy-cat-lady']
+			['user_id' => 1,'name' => 'Be a superman', 'slug' => 'be-a-superman'],
+			['user_id' => 2, 'name' => 'Become a crazy cat lady ', 'slug' => 'become-a-crazy-cat-lady']
 		);
 
 		foreach ($projects as $project) {

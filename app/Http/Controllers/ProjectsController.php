@@ -3,11 +3,18 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-use App\Project;
 use App\Task;
+use App\Project;
+use App\Http\Requests\ProjectRequest;
+
+use \Auth;
 
 class ProjectsController extends Controller {
+
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 
 	/**
 	 * Display a listing of projects.
@@ -16,7 +23,7 @@ class ProjectsController extends Controller {
 	 */
 	public function index()
 	{
-		$projects = Project::all();
+		$projects = Auth::user()->projects;
 		return view('projects.index', compact('projects'));
 	}
 
@@ -33,11 +40,12 @@ class ProjectsController extends Controller {
 	/**
 	 * Store a newly created project in storage.
 	 *
+	 * @param ProjectRequest $request
 	 * @return Response
 	 */
-	public function store()
+	public function store(ProjectRequest $request)
 	{
-		//
+		return redirect('projects');
 	}
 
 	/**
@@ -66,11 +74,13 @@ class ProjectsController extends Controller {
 	 * Update the specified project in storage.
 	 *
 	 * @param  Project $project
+	 * @param  ProjectRequest $request
 	 * @return Response
 	 */
-	public function update(Project $project)
+	public function update(Project $project, ProjectRequest $request)
 	{
-		//
+		Auth::user()->projects()->update($request->all());
+		return redirect('projects');
 	}
 
 	/**
@@ -81,7 +91,8 @@ class ProjectsController extends Controller {
 	 */
 	public function destroy(Project $project)
 	{
-		//
+		$project->delete();
+		return redirect()->route('projects.index');
 	}
 
 }

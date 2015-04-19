@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
+Route::get('/', function(){
+	return redirect('projects');
+});
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -22,3 +22,5 @@ Route::controllers([
 
 Route::resource('projects', 'ProjectsController');
 Route::resource('projects.tasks', 'TasksController');
+
+Route::get('projects/{projects}/task/{tasks}/complete', ['as' => 'projects.tasks.complete', 'uses' => 'TasksController@complete']);

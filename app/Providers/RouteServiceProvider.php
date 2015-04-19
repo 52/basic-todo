@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 		// model binding, treat 'projects' wildcard on URL as slug
 		$router->bind('projects', function($slug){
-			return \App\Project::whereSlug($slug)->firstOrFail();
+			return \Auth::user()->projects()->whereSlug($slug)->firstOrFail();
 		});
 
 		// model binding, treat 'tasks' wildcard on URL as slug
