@@ -11,12 +11,6 @@
 	</div>
 @endif
 
-<div class="form-group {{ $errors->first('slug') ? 'has-error' : '' }}">
-	{!! Form::label('slug', 'Slug:') !!}
-	{!! Form::text('slug', null, ['class' => 'form-control']) !!}
-	<span class="help-block">{{ $errors->first('slug') }}</span>
-</div>
-
 <div class="form-group {{ $errors->first('description') ? 'has-error' : '' }}">
 	{!! Form::label('description', 'Description:') !!}
 	{!! Form::textarea('description', null, ['class' => 'form-control']) !!}

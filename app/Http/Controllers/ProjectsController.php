@@ -3,11 +3,11 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use \Auth;
 use App\Task;
 use App\Project;
+use Illuminate\Support\Str;
 use App\Http\Requests\ProjectRequest;
-
-use \Auth;
 
 class ProjectsController extends Controller {
 
@@ -45,6 +45,11 @@ class ProjectsController extends Controller {
 	 */
 	public function store(ProjectRequest $request)
 	{
+		$new_project = $request->all();
+		$new_project['slug'] = $this->generateSlug($new_project['name']);
+
+		Auth::user()->projects()->create($new_project);
+
 		return redirect('projects');
 	}
 
@@ -67,6 +72,7 @@ class ProjectsController extends Controller {
 	 */
 	public function edit(Project $project)
 	{
+
 		return view('projects.edit', compact('project'));
 	}
 
@@ -79,7 +85,7 @@ class ProjectsController extends Controller {
 	 */
 	public function update(Project $project, ProjectRequest $request)
 	{
-		Auth::user()->projects()->update($request->all());
+		$project->update($request->all());
 		return redirect('projects');
 	}
 
@@ -93,6 +99,38 @@ class ProjectsController extends Controller {
 	{
 		$project->delete();
 		return redirect()->route('projects.index');
+	}
+
+	/**
+	 * Helper function to generate new slug
+	 *
+	 * @param  String $name
+	 * @return String
+	 */
+	private function generateSlug($name)
+	{
+		// create new slug
+		$new_slug = Str::slug($name);
+
+		// get all slugs with similar pattern: slug-[number]
+		$slugs = Project::whereRaw("slug REGEXP '^{$new_slug}(-[0-9]*)?$'")->lists('slug');
+
+		// if already exist slugs with the same pattern as the new slug
+		if(count($slugs) !== 0){
+
+			// extract the number part from slugs
+			$slug_numbers = array_map(
+				function($slug) use ($new_slug){
+					return intval(str_replace($new_slug . '-', '', $slug));
+				},
+				$slugs
+			);
+
+			// generate new slug with new number
+			$new_slug .=  '-' . (max($slug_numbers) + 1);
+		}
+
+		return $new_slug;
 	}
 
 }

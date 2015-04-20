@@ -15,6 +15,10 @@ Route::get('/', function(){
 	return redirect('projects');
 });
 
+Route::get('/home', function(){
+	return redirect('projects');
+});
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

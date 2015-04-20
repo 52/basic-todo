@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use \Auth;
 use App\Task;
 use App\Project;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 
@@ -26,10 +27,16 @@ class TasksController extends Controller {
 	 * Store a newly created task in storage.
 	 *
 	 * @param Project $project
+	 * @param TaskRequest $request
 	 * @return Response
 	 */
 	public function store(Project $project, TaskRequest $request)
 	{
+		$new_task = $request->all();
+		$new_task['slug'] = $this->generateSlug($new_task['name']);
+
+		$project->tasks()->create($new_task);
+
 		return redirect()->route('projects.show', [$project->slug]);
 	}
 
@@ -113,5 +120,37 @@ class TasksController extends Controller {
 		$task->completed = true;
 		$task->save();
 		return redirect()->route('projects.show', [$project->slug]);
+	}
+
+	/**
+	 * Helper function to generate new slug
+	 *
+	 * @param  String $name
+	 * @return String
+	 */
+	private function generateSlug($name)
+	{
+		// create new slug
+		$new_slug = Str::slug($name);
+
+		// get all slugs with similar pattern: slug-[number]
+		$slugs = Task::whereRaw("slug REGEXP '^{$new_slug}(-[0-9]*)?$'")->lists('slug');
+
+		// if already exist slugs with the same pattern as the new slug
+		if(count($slugs) !== 0){
+
+			// extract the number part from slugs
+			$slug_numbers = array_map(
+				function($slug) use ($new_slug){
+					return intval(str_replace($new_slug . '-', '', $slug));
+				},
+				$slugs
+			);
+
+			// generate new slug with new number
+			$new_slug .=  '-' . (max($slug_numbers) + 1);
+		}
+
+		return $new_slug;
 	}
 }

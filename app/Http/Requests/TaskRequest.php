@@ -26,21 +26,6 @@ class TaskRequest extends Request {
 			'description' => 'required'
 		);
 
-		switch ($this->method()) {
-
-			case 'POST':
-				$rules['slug'] = 'required|unique:tasks';
-				break;
-
-			case 'PUT':
-			case 'PATCH':
-				$rules['slug'] = 'required|unique:tasks,slug,' . $this->tasks->id;
-				break;
-
-			default:
-				break;
-		}
-
 		return $rules;
 	}
 
