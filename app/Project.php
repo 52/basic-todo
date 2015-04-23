@@ -37,4 +37,22 @@ class Project extends Model {
 	{
 		$this->tasks()->findOrFail($task_id);
 	}
+
+	/**
+	 * get status of the current project
+	 *
+	 * @return String
+	 */
+	public function getStatus()
+	{
+		$status = '';
+		if(count($this->tasks) == 0) {
+			$status = "Your project doesn't have any task.";
+		} else {
+			$status = "Your project has " . $this->tasks()->completed()->count() .
+					  " completed task(s) and " . $this->tasks()->incompleted()->count() . " task(s) left.";
+		}
+
+		return $status;
+	}
 }

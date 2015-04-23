@@ -13,7 +13,12 @@ class Task extends Model {
 
 	public function scopeIncompleted($query)
 	{
-		$query->whereCompleted('false');
+		$query->whereCompleted(0);
+	}
+
+	public function scopeCompleted($query)
+	{
+		$query->whereCompleted(1);
 	}
 
 	/**

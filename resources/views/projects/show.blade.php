@@ -10,25 +10,23 @@
 		</span>
 	{!! Form::close() !!}
 	</h2>
-	<hr>
 
-	@if (!$project->tasks()->incompleted()->count())
-		Your project has no unfinished tasks.
-	@else
-		<ul>
-			@foreach ($project->tasks()->incompleted()->get() as $task)
-				<li>
-				{!! Form::open(['class' => 'form-inline main-link', 'method' => 'DELETE', 'route' => ['projects.tasks.destroy', $project->slug, $task->slug] ]) !!}
-					{!! link_to_route('projects.tasks.show', $task->name, [$project->slug, $task->slug]) !!}
-					<span class="action">
-					{!! link_to_route('projects.tasks.complete', 'Mark as Completed', [$project->slug, $task->slug], ['class' => 'btn btn-primary']) !!}
-					{!! link_to_route('projects.tasks.edit', 'Edit', [$project->slug, $task->slug], ['class' => 'btn btn-info']) !!}
-					{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-					</span>
-				{!! Form::close() !!}
-				</li>
-			@endforeach
-		</ul>
+	<p>{{$status}}</p>
+
+	@if ($project->tasks()->incompleted()->count() !== 0)
+	<hr>
+	<ul>
+		@foreach ($project->tasks()->incompleted()->get() as $task)
+			<li>
+			{!! Form::open(['class' => 'form-inline', 'method' => 'DELETE', 'route' => ['projects.tasks.destroy', $project->slug, $task->slug] ]) !!}
+				{!! link_to_route('projects.tasks.show', $task->name, [$project->slug, $task->slug]) !!}
+				{!! link_to_route('projects.tasks.complete', 'Mark as Completed', [$project->slug, $task->slug], ['class' => 'btn btn-primary']) !!}
+				{!! link_to_route('projects.tasks.edit', 'Edit', [$project->slug, $task->slug], ['class' => 'btn btn-info']) !!}
+				{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+			{!! Form::close() !!}
+			</li>
+		@endforeach
+	</ul>
 	@endif
 
 	<hr>
@@ -36,8 +34,4 @@
 		{!! link_to_route('projects.index', 'Back to Projects') !!} |
 		{!! link_to_route('projects.tasks.create', 'Create new task', [$project->slug]) !!}
 	</p>
-@stop
-
-@section('footer')
-	@include('partials.actionscript')
 @stop
